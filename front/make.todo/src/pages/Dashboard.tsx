@@ -1,4 +1,4 @@
-import { Box, Container } from '@mui/material';
+import { Container } from '@mui/material';
 
 function Dashboard() {
   return <Container>sssssssssssssssssssssssssssssssssSome Text</Container>;

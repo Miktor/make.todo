@@ -41,6 +41,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

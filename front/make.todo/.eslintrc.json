@@ -23,5 +23,10 @@
         "react/jsx-filename-extension": ["warn", {
             "extensions": [".tsx"]
         }]
+    },
+    "settings": {
+        "import/resolver": {
+            "typescript": {}
+        }
     }
 }

@@ -5,7 +5,8 @@
     },
     "extends": [
         "plugin:react/recommended",
-        "airbnb"
+        "airbnb",
+        "plugin:@typescript-eslint/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -17,16 +18,36 @@
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "react-hooks"
     ],
-    "rules": {
-        "react/jsx-filename-extension": ["warn", {
-            "extensions": [".tsx"]
-        }]
-    },
     "settings": {
         "import/resolver": {
             "typescript": {}
         }
+    },
+    "rules": {
+        "react/jsx-filename-extension": ["warn", {
+            "extensions": [".tsx"]
+        }],
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "ts": "never",
+                "tsx": "never"
+            }
+        ],
+        "@typescript-eslint/explicit-function-return-type": [
+            "error",
+            {
+                "allowExpressions": true
+            }
+        ],
+        "max-len": ["warn", {
+            "code": 120
+        }],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn"
     }
 }

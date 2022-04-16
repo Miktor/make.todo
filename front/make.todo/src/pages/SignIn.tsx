@@ -13,24 +13,27 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-function Copyright(props: any) {
+function Copyright(props: any): React.ReactElement {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
         Your Website
-      </Link>
-      {' '}
-      {new Date().getFullYear()}
-      .
+      </Link>{' '}
+      {new Date().getFullYear()}.
     </Typography>
   );
 }
 
 const theme = createTheme();
 
-export default function SignIn() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+export default function SignIn(): React.ReactElement {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
@@ -57,7 +60,12 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
             <TextField
               margin="normal"
               required

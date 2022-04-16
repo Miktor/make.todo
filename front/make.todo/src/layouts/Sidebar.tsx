@@ -7,6 +7,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import { ReactElement } from 'react';
 import { drawerWidth } from './MainLayout';
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -40,7 +41,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== 'open',
+  shouldForwardProp: prop => prop !== 'open',
 })(({ theme, open }) => ({
   width: drawerWidth,
   flexShrink: 0,
@@ -60,7 +61,7 @@ interface Props {
   open: boolean;
 }
 
-export default function DashboardSidebar(props: Props) {
+export default function DashboardSidebar(props: Props): ReactElement {
   const { open } = props;
 
   return (

@@ -3,6 +3,7 @@ import DashboardLayout from './layouts/MainLayout';
 import Dashboard from './pages/Dashboard';
 import SignIn from './pages/SignIn';
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const Router = () =>
   useRoutes([
     {

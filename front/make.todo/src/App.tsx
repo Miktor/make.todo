@@ -1,6 +1,7 @@
-import { CssBaseline } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Router from "./routes";
+import { CssBaseline } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import React from 'react';
+import Router from './routes';
 
 const mdTheme = createTheme();
 

@@ -31,13 +31,14 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 export default function TopBar(props: Props): ReactElement {
+  const { onOpen } = props;
   return (
     <AppBar position="fixed">
       <Toolbar>
         <IconButton
           color="inherit"
           aria-label="open drawer"
-          onClick={props.onOpen}
+          onClick={onOpen}
           edge="start"
           sx={{
             marginRight: 5,

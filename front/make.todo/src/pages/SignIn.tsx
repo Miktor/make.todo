@@ -11,16 +11,21 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {
+  createTheme,
+  SxProps,
+  Theme,
+  ThemeProvider,
+} from '@mui/material/styles';
+import { useState } from 'react';
 
-function Copyright(props: any): React.ReactElement {
+interface CopyrightProps {
+  sx: SxProps<Theme>;
+}
+
+function Copyright({ sx = [] }: CopyrightProps): React.ReactElement {
   return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
+    <Typography variant="body2" color="text.secondary" align="center" sx={sx}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
         Your Website
@@ -32,14 +37,45 @@ function Copyright(props: any): React.ReactElement {
 
 const theme = createTheme();
 
+interface UserLoginRequest {
+  login: string;
+  password: string;
+}
+
+interface UserLoginResponse {
+  token: string;
+}
+
+function setToken(userToken: UserLoginResponse): void {
+  sessionStorage.setItem('token', JSON.stringify(userToken));
+  console.log(userToken);
+}
+
+async function loginUser(
+  credentials: UserLoginRequest
+): Promise<UserLoginResponse> {
+  return fetch('http://localhost:8000/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(credentials),
+  }).then(data => data.json());
+}
+
 export default function SignIn(): React.ReactElement {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+  const [username, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+    const token = await loginUser({
+      login: username,
+      password,
     });
+    setToken(token);
   };
 
   return (
@@ -75,6 +111,7 @@ export default function SignIn(): React.ReactElement {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={e => setUserName(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -85,6 +122,7 @@ export default function SignIn(): React.ReactElement {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={e => setPassword(e.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -100,13 +138,13 @@ export default function SignIn(): React.ReactElement {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="/forgot" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
-                  Don't have an account? Sign Up
+                <Link href="/register" variant="body2">
+                  Don&apos;t have an account? Sign Up
                 </Link>
               </Grid>
             </Grid>

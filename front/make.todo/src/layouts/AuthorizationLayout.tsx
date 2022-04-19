@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container, CssBaseline } from '@mui/material';
+import { Container } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import Copyright from '../components/Copyright';
 

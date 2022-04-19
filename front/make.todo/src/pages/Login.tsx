@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -10,10 +9,8 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
-import Copyright from '../components/Copyright';
+import { Link as RouterLink } from 'react-router-dom';
 
 interface UserLoginRequest {
   login: string;
@@ -108,12 +105,12 @@ export default function Login(): React.ReactElement {
         </Button>
         <Grid container>
           <Grid item xs>
-            <Link href="/forgot" variant="body2">
+            <Link component={RouterLink} to="/forgot" variant="body2">
               Forgot password?
             </Link>
           </Grid>
           <Grid item>
-            <Link href="/register" variant="body2">
+            <Link component={RouterLink} to="/register" variant="body2">
               Don&apos;t have an account? Sign Up
             </Link>
           </Grid>

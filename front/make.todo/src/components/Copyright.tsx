@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { Box, SxProps, Theme } from '@mui/material';
+import { SxProps, Theme } from '@mui/material';
 
 interface CopyrightProps {
   sx: SxProps<Theme>;

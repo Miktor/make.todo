@@ -17,7 +17,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-export default function MiniDrawer(): React.ReactElement {
+export default function MainLayout(): React.ReactElement {
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = (): void => {

@@ -1,7 +1,9 @@
 import { Navigate, useRoutes } from 'react-router-dom';
+import AuthorizationLayout from './layouts/AuthorizationLayout';
 import DashboardLayout from './layouts/MainLayout';
 import Dashboard from './pages/Dashboard';
-import SignIn from './pages/SignIn';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const Router = () =>
@@ -13,9 +15,11 @@ const Router = () =>
     },
     {
       path: '/',
+      element: <AuthorizationLayout />,
       children: [
         { path: '/', element: <Navigate to="/app" /> },
-        { path: 'login', element: <SignIn /> },
+        { path: 'login', element: <Login /> },
+        { path: 'register', element: <Register /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],
     },

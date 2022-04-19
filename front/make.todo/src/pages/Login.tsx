@@ -11,31 +11,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-
-interface UserLoginRequest {
-  login: string;
-  password: string;
-}
-
-interface UserLoginResponse {
-  token: string;
-}
+import { Auth, UserLoginResponse } from '../api/Auth';
 
 function setToken(userToken: UserLoginResponse): void {
   sessionStorage.setItem('token', JSON.stringify(userToken));
   console.log(userToken);
-}
-
-async function loginUser(
-  credentials: UserLoginRequest
-): Promise<UserLoginResponse> {
-  return fetch('http://localhost:8000/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(credentials),
-  }).then(data => data.json());
 }
 
 export default function Login(): React.ReactElement {
@@ -46,7 +26,7 @@ export default function Login(): React.ReactElement {
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
-    const token = await loginUser({
+    const token = await Auth.login({
       login: username,
       password,
     });

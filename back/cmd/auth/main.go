@@ -11,6 +11,7 @@ func main() {
 	http.HandleFunc("/login", handler)
 	http.HandleFunc("/refresh-token", handler)
 	log.Print("Starting...")
+	
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
 

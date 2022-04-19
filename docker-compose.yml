@@ -19,9 +19,6 @@ services:
     container_name: front
     volumes:
       - './front/make.todo/:/app'
-      - '/app/node_modules'
-    environment:
-      - CHOKIDAR_USEPOLLING=true    
     depends_on:
       - auth
 
@@ -30,4 +27,23 @@ services:
     build: ./back/cmd/auth
     volumes:
       - ./back/cmd/auth/:/app
+    depends_on:
+      - db
+
+  db:
+    container_name: db
+    image: postgres:14.2
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: todo
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ./deploy/psql/:/docker-entrypoint-initdb.d
+      - ./tmp/pgdata/:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G
  

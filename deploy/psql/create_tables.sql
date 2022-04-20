@@ -1,6 +1,6 @@
 CREATE TABLE users(
   id SERIAL UNIQUE,
-  username TEXT NOT NULL UNIQUE,
+  email_hash TEXT NOT NULL UNIQUE,
   pwd_hash TEXT NOT NULL
 );
 

@@ -10,8 +10,8 @@ export interface UserLoginRequest {
 }
 
 export interface RegisterRequest {
-  login: string;
-  password: string;
+  EmailHash: string;
+  PasswordHash: string;
 }
 
 export abstract class Auth extends API {

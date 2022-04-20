@@ -1,5 +1,5 @@
 export default abstract class API {
-  private static address = 'localhost:3000/api/';
+  private static address = 'http://localhost:3000/api/';
 
   protected static async apiCall<T, R>(url: string, body: T): Promise<R> {
     return fetch(`${API.address}${url}`, {

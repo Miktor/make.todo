@@ -25,6 +25,8 @@ services:
   auth:
     container_name: auth
     build: ./back/cmd/auth
+    environment:
+      DATABASE_URL: "postgres://admin:admin@db:5432/todo"
     volumes:
       - ./back/cmd/auth/:/app
     depends_on:

@@ -10,14 +10,18 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { Link as RouterLink } from 'react-router-dom';
+import { useState } from 'react';
+import { Auth } from '../api/Auth';
 
-export default function Register() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+export default function Register(): React.ReactElement {
+  const [username, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+    const token = await Auth.register({
+      EmailHash: username,
+      PasswordHash: password,
     });
   };
 
@@ -38,27 +42,6 @@ export default function Register() {
       </Typography>
       <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              autoComplete="given-name"
-              name="firstName"
-              required
-              fullWidth
-              id="firstName"
-              label="First Name"
-              autoFocus
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              fullWidth
-              id="lastName"
-              label="Last Name"
-              name="lastName"
-              autoComplete="family-name"
-            />
-          </Grid>
           <Grid item xs={12}>
             <TextField
               required
@@ -67,6 +50,7 @@ export default function Register() {
               label="Email Address"
               name="email"
               autoComplete="email"
+              onChange={e => setUserName(e.target.value)}
             />
           </Grid>
           <Grid item xs={12}>
@@ -78,12 +62,7 @@ export default function Register() {
               type="password"
               id="password"
               autoComplete="new-password"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <FormControlLabel
-              control={<Checkbox value="allowExtraEmails" color="primary" />}
-              label="I want to receive inspiration, marketing promotions and updates via email."
+              onChange={e => setPassword(e.target.value)}
             />
           </Grid>
         </Grid>

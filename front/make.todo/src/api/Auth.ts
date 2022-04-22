@@ -17,15 +17,11 @@ export interface RegisterRequest {
 export abstract class Auth extends API {
   private static prefix = 'auth';
 
-  public static async login(
-    request: UserLoginRequest
-  ): Promise<UserLoginResponse> {
+  public static async login(request: UserLoginRequest): Promise<Response> {
     return Auth.apiCall(`${Auth.prefix}/login`, request);
   }
 
-  public static async register(
-    request: RegisterRequest
-  ): Promise<UserLoginResponse> {
+  public static async register(request: RegisterRequest): Promise<Response> {
     return Auth.apiCall(`${Auth.prefix}/register`, request);
   }
 }

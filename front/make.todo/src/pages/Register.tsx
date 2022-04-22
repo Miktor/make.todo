@@ -2,26 +2,36 @@ import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Auth } from '../api/Auth';
+import useAuth from '../hooks/UseAuth';
+import { RequireAuthState } from '../components/RequireAuth';
 
 export default function Register(): React.ReactElement {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = (location.state as RequireAuthState)?.from?.pathname || '/app';
+
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const auth = useAuth();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault();
-    const token = await Auth.register({
+    return Auth.register({
       EmailHash: username,
       PasswordHash: password,
+    }).then(response => {
+      auth.authorized = response.ok && response.status === 200;
+      navigate(from, { replace: true });
     });
   };
 

@@ -15,11 +15,11 @@ func InitDb() (*pgxpool.Pool, error) {
 	return pgxpool.Connect(context.Background(), os.Getenv("DATABASE_URL"))
 }
 
-func RegisterUser(ctx context.Context, pool *pgxpool.Pool, user *models.UserInfo) (*models.RegisterResponse, error) {
+func RegisterUser(ctx context.Context, pool *pgxpool.Pool, user *models.UserInfo) error {
 	conn, err := pool.Acquire(ctx)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "Error acquiring connection:", err)
-		return nil, err
+		return nil
 	}
 	defer conn.Release()
 
@@ -32,5 +32,27 @@ func RegisterUser(ctx context.Context, pool *pgxpool.Pool, user *models.UserInfo
 		}
 	}
 
-	return &models.RegisterResponse{Token: "asdasd"}, err
+	return err
+}
+
+func LoginUser(ctx context.Context, pool *pgxpool.Pool, user *models.UserInfo) error {
+	conn, err := pool.Acquire(ctx)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Error acquiring connection:", err)
+		return err
+	}
+	defer conn.Release()
+
+	var found bool
+	err = conn.QueryRow(ctx, "SELECT TRUE FROM users where email_hash = $1 and pwd_hash = $2", user.EmailHash, user.PasswordHash).Scan(&found)
+	if err != nil {
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) {
+			fmt.Println(pgErr.Message)
+			fmt.Println(pgErr.Code)
+		}
+		return err
+	}
+
+	return nil
 }

@@ -10,27 +10,31 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { Auth, UserLoginResponse } from '../api/Auth';
-
-function setToken(userToken: UserLoginResponse): void {
-  sessionStorage.setItem('token', JSON.stringify(userToken));
-  console.log(userToken);
-}
+import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
+import { Auth } from '../api/Auth';
+import useAuth from '../hooks/UseAuth';
+import { RequireAuthState } from '../components/RequireAuth';
 
 export default function Login(): React.ReactElement {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = (location.state as RequireAuthState)?.from?.pathname || '/app';
+
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const auth = useAuth();
 
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
-    const token = await Auth.login({
+    return Auth.login({
       login: username,
       password,
+    }).then(response => {
+      auth.authorized = response.ok && response.status === 200;
+      navigate(from, { replace: true });
     });
-    setToken(token);
   };
 
   return (

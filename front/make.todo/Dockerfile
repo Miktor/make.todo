@@ -11,7 +11,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 
 # install app dependencies
 COPY . ./
-RUN npm install
+RUN yarn install
 
 # start app
-CMD ["npm", "start"]    
+CMD ["yarn", "start"]    

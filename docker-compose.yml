@@ -27,6 +27,7 @@ services:
     build: ./back/cmd/auth
     environment:
       DATABASE_URL: "postgres://admin:admin@db:5432/todo"
+      COOKIE_SALT: "SUPER_SALTY"
     volumes:
       - ./back/cmd/auth/:/app
     depends_on:

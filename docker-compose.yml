@@ -33,6 +33,15 @@ services:
     depends_on:
       - db
 
+  todos:
+    build: ./back/services/todos
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - ./back/services/todos:/app
+    depends_on:
+      - db
+      - auth
+
   db:
     container_name: db
     image: postgres:14.2
@@ -49,4 +58,3 @@ services:
         limits:
           cpus: '1'
           memory: 2G
- 

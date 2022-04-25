@@ -1,0 +1,17 @@
+name: Todos Service Image CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - back/services/todos/**
+      - .github/workflows/todos.yml
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build todos service image
+        run: docker build ./back/services/todos --file ./back/services/todos/Dockerfile --tag todos:$(date +%s)

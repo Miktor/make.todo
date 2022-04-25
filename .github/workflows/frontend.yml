@@ -1,0 +1,16 @@
+name: Frontend Docker Image CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - front/make.todo/**
+      - .github/workflows/frontend.yml
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build frontend image
+        run: docker build ./front/make.todo --file ./front/make.todo/Dockerfile --tag front:$(date +%s)

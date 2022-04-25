@@ -16,4 +16,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build auth service image
-        run: docker build . --file ./back/services/auth/Dockerfile --tag auth:$(date +%s)
+        run: docker build ./back/services/auth --file ./back/services/auth/Dockerfile --tag auth:$(date +%s)

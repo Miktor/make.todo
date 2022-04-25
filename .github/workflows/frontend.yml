@@ -1,6 +1,8 @@
 name: Frontend Docker Image CI
 
 on:
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
     paths:
@@ -12,5 +14,5 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        name: Build frontend image
+      - name: Build frontend image
         run: docker build . --file ./front/make.todo/Dockerfile --tag front:$(date +%s)

@@ -1,6 +1,8 @@
 name: Todo Service Image CI
 
 on:
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
     paths:
@@ -13,5 +15,5 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        name: Build todo service image
+      - name: Build todo service image
         run: docker build . --file ./back/services/todo/Dockerfile --tag todo:$(date +%s)

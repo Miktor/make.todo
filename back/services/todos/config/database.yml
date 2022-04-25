@@ -84,3 +84,10 @@ production:
   database: todos_production
   username: todos
   password: <%= ENV["TODOS_DATABASE_PASSWORD"] %>
+
+development:
+  <<: *default
+  database: todos_development
+  username: <%= ENV['DBUSER'] %>
+  password: <%= ENV['DBPASS'] %>
+  host: <%= ENV['DBHOST'] %>

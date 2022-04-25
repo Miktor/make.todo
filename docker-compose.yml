@@ -35,7 +35,11 @@ services:
 
   todos:
     build: ./back/services/todos
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    environment:
+      - DBHOST=db
+      - DBUSER=admin
+      - DBPASS=admin
     volumes:
       - ./back/services/todos:/app
     depends_on:

@@ -6,8 +6,8 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - back/services/todo/**
-      - .github/workflows/todo.yml
+      - back/services/todos/**
+      - .github/workflows/todos.yml
 
 jobs:
   build:
@@ -16,4 +16,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build todos service image
-        run: docker build ./back/services/todos --file ./back/services/todos/Dockerfile --tag todo:$(date +%s)
+        run: docker build ./back/services/todos --file ./back/services/todos/Dockerfile --tag todos:$(date +%s)

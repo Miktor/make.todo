@@ -1,0 +1,16 @@
+name: Auth Service Image CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - back/services/auth/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        name: Build auth service image
+        run: docker build . --file ./back/services/auth/Dockerfile --tag auth:$(date +%s)

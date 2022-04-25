@@ -1,7 +1,7 @@
 name: Todo Service Image CI
 
 on:
-  push:
+  pull_request:
     branches: [main]
     paths:
       - back/services/todo/**

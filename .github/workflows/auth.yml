@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - back/services/auth/**
+      - .github/workflows/auth.yml
 
 jobs:
   build:

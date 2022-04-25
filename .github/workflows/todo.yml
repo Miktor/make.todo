@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - back/services/todo/**
+      - .github/workflows/todo.yml
 
 jobs:
   build:

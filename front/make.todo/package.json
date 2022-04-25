@@ -52,6 +52,10 @@
     "typescript": "^4.6.3",
     "web-vitals": "^2.1.4"
   },
+  "resolutions": {
+    "nth-check": "2.0.1",
+    "css-select": "4.1.3"
+  },
   "scripts": {
     "lint": "eslint --ext .ts,.tsx .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",

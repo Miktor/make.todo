@@ -1,4 +1,4 @@
-package postgres
+package database
 
 import (
 	"context"
@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Miktor/make.todo/back/cmd/auth/database"
 	"github.com/Miktor/make.todo/back/cmd/auth/models"
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgx/v4"
@@ -64,4 +63,4 @@ func (db *DB) Close() {
 	db.repository.Close()
 }
 
-var _ database.AuthDB = (*DB)(nil)
+var _ AuthDB = (*DB)(nil)

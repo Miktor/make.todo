@@ -20,7 +20,7 @@ func TestDB_RegisterUser(t *testing.T) {
 	}
 
 	db := &DB{
-		pool: mock_pool,
+		repository: mock_pool,
 	}
 
 	email, pwd := "email", "pdw"
@@ -42,7 +42,7 @@ func TestDB_LoginUser(t *testing.T) {
 	}
 
 	db := &DB{
-		pool: mock_pool,
+		repository: mock_pool,
 	}
 
 	email, pwd := "email", "pdw"
@@ -64,7 +64,7 @@ func TestDB_Close(t *testing.T) {
 	}
 
 	db := &DB{
-		pool: mock_pool,
+		repository: mock_pool,
 	}
 
 	mock_pool.ExpectClose()

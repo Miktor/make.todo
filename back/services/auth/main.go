@@ -10,23 +10,23 @@ import (
 
 	"github.com/Miktor/make.todo/back/cmd/auth/database"
 	"github.com/Miktor/make.todo/back/cmd/auth/models"
+	"github.com/Miktor/make.todo/back/cmd/auth/postgres"
 	"github.com/gorilla/sessions"
-	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 type Env struct {
-	pool  *pgxpool.Pool
+	db    database.AuthDB
 	store *sessions.CookieStore
 }
 
 func main() {
-	pool, err := database.InitDb()
+	db, err := postgres.InitDb()
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer pool.Close()
+	defer db.Close()
 
-	env := &Env{pool: pool, store: sessions.NewCookieStore([]byte(os.Getenv("COOKIE_SALT")))}
+	env := &Env{db: db, store: sessions.NewCookieStore([]byte(os.Getenv("COOKIE_SALT")))}
 	env.store.Options.Secure = true
 	env.store.Options.HttpOnly = true
 
@@ -47,7 +47,7 @@ func (env *Env) registerHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userInfo := models.UserInfo{EmailHash: request.EmailHash, PasswordHash: request.PasswordHash}
-	err = database.RegisterUser(context.Background(), env.pool, &userInfo)
+	err = env.db.RegisterUser(context.Background(), &userInfo)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusConflict)
 		return
@@ -69,7 +69,7 @@ func (env *Env) loginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userInfo := models.UserInfo{EmailHash: request.EmailHash, PasswordHash: request.PasswordHash}
-	err = database.LoginUser(context.Background(), env.pool, &userInfo)
+	err = env.db.LoginUser(context.Background(), &userInfo)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

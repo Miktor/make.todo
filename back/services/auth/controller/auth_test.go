@@ -18,6 +18,7 @@ func Test_auth_RegisterHandler(t *testing.T) {
 		method     string
 		body       string
 		want       string
+		dbCalled   bool
 		statusCode int
 	}{
 		{
@@ -25,6 +26,7 @@ func Test_auth_RegisterHandler(t *testing.T) {
 			method:     http.MethodGet,
 			body:       `{"hash": "", "pwd": ""}`,
 			want:       `Invalid Email`,
+			dbCalled:   false,
 			statusCode: http.StatusBadRequest,
 		},
 	}
@@ -38,7 +40,9 @@ func Test_auth_RegisterHandler(t *testing.T) {
 				store: store,
 			}
 
-			db.On("RegisterUser", &models.UserInfo{}).Return(nil)
+			if tc.dbCalled == true {
+				db.On("RegisterUser", &models.UserInfo{}).Return(nil)
+			}
 
 			request := httptest.NewRequest(tc.method, "/register", strings.NewReader(tc.body))
 			responseRecorder := httptest.NewRecorder()

@@ -13,5 +13,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - run: pwd
       - name: Build todos service image
         run: docker build ./back/services/todos --file ./back/services/todos/Dockerfile --tag todos:$(date +%s)

@@ -6,12 +6,12 @@ import (
 	"os"
 
 	"github.com/Miktor/make.todo/back/cmd/auth/controller"
-	"github.com/Miktor/make.todo/back/cmd/auth/postgres"
+	"github.com/Miktor/make.todo/back/cmd/auth/database"
 	"github.com/gorilla/sessions"
 )
 
 func main() {
-	db, err := postgres.InitDb()
+	db, err := database.InitPG()
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -11,9 +11,13 @@ import (
 	"github.com/gorilla/sessions"
 )
 
+type SessionStore interface {
+	Get(r *http.Request, name string) (*sessions.Session, error)
+}
+
 type auth struct {
 	db    database.AuthDB
-	store *sessions.CookieStore
+	store SessionStore
 }
 
 type Auth interface {
@@ -22,7 +26,7 @@ type Auth interface {
 	RefreshHandler(w http.ResponseWriter, r *http.Request)
 }
 
-func AuthController(db database.AuthDB, store *sessions.CookieStore) (Auth, error) {
+func AuthController(db database.AuthDB, store SessionStore) (Auth, error) {
 	auth := &auth{db: db, store: store}
 
 	return auth, nil
@@ -37,6 +41,19 @@ func (auth *auth) RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userInfo := models.UserInfo{EmailHash: request.EmailHash, PasswordHash: request.PasswordHash}
+
+	//TODO: add email validation
+	if len(userInfo.EmailHash) < 3 {
+		http.Error(w, "Invalid Email", http.StatusBadRequest)
+		return
+	}
+
+	//TODO: add password validation
+	if len(userInfo.PasswordHash) < 3 {
+		http.Error(w, "Invalid password", http.StatusBadRequest)
+		return
+	}
+
 	err = auth.db.RegisterUser(context.Background(), &userInfo)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusConflict)

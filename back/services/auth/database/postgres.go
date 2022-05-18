@@ -23,7 +23,7 @@ type DB struct {
 	repository Repository
 }
 
-func InitDb() (*DB, error) {
+func InitPG() (*DB, error) {
 	repository, err := pgxpool.Connect(context.Background(), os.Getenv("DATABASE_URL"))
 	if err != nil {
 		return nil, err

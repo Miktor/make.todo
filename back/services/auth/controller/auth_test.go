@@ -1,6 +1,10 @@
 package controller
 
 import (
+	"bytes"
+	"context"
+	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -12,11 +16,16 @@ import (
 	"github.com/gorilla/sessions"
 )
 
+type Request struct {
+	EmailHash    string
+	PasswordHash string
+}
+
 func Test_auth_RegisterHandler(t *testing.T) {
 	tt := []struct {
 		name       string
 		method     string
-		body       string
+		body       Request
 		want       string
 		dbCalled   bool
 		statusCode int
@@ -24,9 +33,25 @@ func Test_auth_RegisterHandler(t *testing.T) {
 		{
 			name:       "simple register",
 			method:     http.MethodGet,
-			body:       `{"hash": "", "pwd": ""}`,
-			want:       `Invalid Email`,
+			body:       Request{EmailHash: "", PasswordHash: "123123"},
+			want:       `Invalid email`,
 			dbCalled:   false,
+			statusCode: http.StatusBadRequest,
+		},
+		{
+			name:       "simple register",
+			method:     http.MethodGet,
+			body:       Request{EmailHash: "some@mail", PasswordHash: ""},
+			want:       `Invalid password`,
+			dbCalled:   false,
+			statusCode: http.StatusBadRequest,
+		},
+		{
+			name:       "simple register",
+			method:     http.MethodGet,
+			body:       Request{EmailHash: "some@mail", PasswordHash: "123123"},
+			want:       `Invalid password`,
+			dbCalled:   true,
 			statusCode: http.StatusBadRequest,
 		},
 	}
@@ -40,12 +65,21 @@ func Test_auth_RegisterHandler(t *testing.T) {
 				store: store,
 			}
 
+			request := httptest.NewRequest(tc.method, "/register", bytes.NewReader(b))
+			responseRecorder := httptest.NewRecorder()
+
 			if tc.dbCalled == true {
-				db.On("RegisterUser", &models.UserInfo{}).Return(nil)
+				db.On("RegisterUser", context.Background(), &models.UserInfo{EmailHash: tc.body.EmailHash, PasswordHash: tc.body.PasswordHash}).Return(nil)
+
+				store.On("Get", request, "session").Return()
 			}
 
-			request := httptest.NewRequest(tc.method, "/register", strings.NewReader(tc.body))
-			responseRecorder := httptest.NewRecorder()
+			b, err := json.Marshal(tc.body)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+
 			auth.RegisterHandler(responseRecorder, request)
 
 			if responseRecorder.Code != tc.statusCode {

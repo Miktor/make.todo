@@ -44,7 +44,7 @@ func (auth *auth) RegisterHandler(w http.ResponseWriter, r *http.Request) {
 
 	//TODO: add email validation
 	if len(userInfo.EmailHash) < 3 {
-		http.Error(w, "Invalid Email", http.StatusBadRequest)
+		http.Error(w, "Invalid email", http.StatusBadRequest)
 		return
 	}
 

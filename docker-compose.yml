@@ -12,13 +12,12 @@ services:
       - 3443:3443
     volumes:
       - ./deploy/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./logs/nginx/:/var/log/nginx
 
   front:
     build: ./front/make.todo
     container_name: front
-    volumes:
-      - './front/make.todo/:/app'
+    ports:
+      - 3001:3001
     depends_on:
       - auth
 
@@ -56,7 +55,6 @@ services:
       PGDATA: "/var/lib/postgresql/data/pgdata"
     volumes:
       - ./deploy/psql/:/docker-entrypoint-initdb.d
-      - ./tmp/pgdata/:/var/lib/postgresql/data
     deploy:
       resources:
         limits:

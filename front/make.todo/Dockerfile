@@ -6,12 +6,14 @@ FROM node:latest
 # set working directory
 WORKDIR /app
 
+COPY ./package.json ./yarn.lock ./
+RUN yarn install --frozen-lockfile
+
 # add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
+ENV PATH="./node_modules/.bin:$PATH"
 
 # install app dependencies
 COPY . ./
-RUN yarn install --frozen-lockfile
 
 # start app
-CMD ["yarn", "start"]    
+CMD npm start  

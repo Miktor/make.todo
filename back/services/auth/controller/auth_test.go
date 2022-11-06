@@ -49,11 +49,11 @@ func Test_auth_RegisterHandler(t *testing.T) {
 			auth.RegisterHandler(responseRecorder, request)
 
 			if responseRecorder.Code != tc.statusCode {
-				t.Errorf("Want status '%d', got '%d'", tc.statusCode, responseRecorder.Code)
+				t.Fatalf("Want status '%d', got '%d'", tc.statusCode, responseRecorder.Code)
 			}
 
 			if strings.TrimSpace(responseRecorder.Body.String()) != tc.want {
-				t.Errorf("Want '%s', got '%s'", tc.want, responseRecorder.Body)
+				t.Fatalf("Want '%s', got '%s'", tc.want, responseRecorder.Body)
 			}
 		})
 	}

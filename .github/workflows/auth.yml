@@ -26,9 +26,13 @@ jobs:
 
       - uses: actions/checkout@v3
 
-      - name: Tests
+      - name: Unit Tests
         working-directory: ${{ env.SERVICE_PATH }}
-        run: go test ./...
+        run: make unit-test
+
+      - name: Integration Tests
+        working-directory: ${{ env.SERVICE_PATH }}
+        run: make integration-test
 
   build:
     runs-on: ubuntu-latest

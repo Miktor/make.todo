@@ -13,6 +13,7 @@ import (
 )
 
 type Repository interface {
+	Ping(ctx context.Context) error
 	Exec(ctx context.Context, sql string, arguments ...interface{}) (pgconn.CommandTag, error)
 	QueryRow(ctx context.Context, sql string, args ...interface{}) pgx.Row
 
@@ -29,6 +30,10 @@ func InitPG() (*DB, error) {
 		return nil, err
 	}
 	return &DB{repository: repository}, nil
+}
+
+func (db *DB) Ping(ctx context.Context) error {
+	return db.repository.Ping(ctx)
 }
 
 func (db *DB) RegisterUser(ctx context.Context, user *models.UserInfo) error {

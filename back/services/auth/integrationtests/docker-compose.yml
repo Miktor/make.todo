@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  auth:
+    container_name: auth
+    build: ../
+    environment:
+      DATABASE_URL: "postgres://admin:admin@db:5432/todo"
+      COOKIE_SALT: "SUPER_SALTY"
+    depends_on:
+      - db
+    ports:
+      - 8000:8000
+
+  db:
+    container_name: db
+    image: postgres:14.2
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: todo
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ../../../../deploy/psql/:/docker-entrypoint-initdb.d
+    ports:
+      - 5432:5432

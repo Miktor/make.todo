@@ -14,12 +14,10 @@ jobs:
 
     # only run on pull requests so long as they don't come from forks
     if: ${{ !( (github.event_name == 'pull_request') && (github.event.pull_request.head.repo.full_name != github.repository) ) }}
-    uses: cloudposse/github-action-auto-format/.github/workflows/auto-format-reusable.yml@main
+    uses: cloudposse/github-action-auto-format@0.12.0
     with:
-      # Delete "format-tasks:" values as desired to limit the scope of the overall auto-formatting task.
-      format-tasks: |
-        ["readme", "github", "context"]
-      # GitHub username to use for automated commits (should be a real GitHub user)
+      format-task: ["readme", "github", "context"]
+      workflow-token: ${{ secrets.workflow-token }}
       bot-name: Miktor
     secrets:
       workflow-token: ${{ secrets.WORKFLOW_TOKEN }}

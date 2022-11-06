@@ -20,6 +20,6 @@ jobs:
       format-tasks: |
         ["readme", "github", "context"]
       # GitHub username to use for automated commits (should be a real GitHub user)
-      bot-name: ${{ secrets.WORKFLOW_USER }}
+      bot-name: Miktor
     secrets:
       workflow-token: ${{ secrets.WORKFLOW_TOKEN }}
